@@ -1,7 +1,7 @@
-package dev.yracnet.plugin.goodness.process;
+package com.github.yracnet.qualitycode.maven.plugin.process;
 
-import dev.yracnet.plugin.goodness.ProcessContext;
-import dev.yracnet.plugin.goodness.ProcessPlugin;
+import com.github.yracnet.qualitycode.maven.plugin.ProcessContext;
+import com.github.yracnet.qualitycode.maven.plugin.ProcessPlugin;
 import java.io.File;
 import java.net.URL;
 import org.apache.maven.model.Plugin;

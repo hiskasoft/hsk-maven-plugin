@@ -1,8 +1,8 @@
-package dev.yracnet.plugin.goodness;
+package com.github.yracnet.qualitycode.maven.plugin;
 
-import dev.yracnet.plugin.goodness.process.AnalyzerProcess;
-import dev.yracnet.plugin.goodness.process.FormatProcess;
-import dev.yracnet.plugin.goodness.process.LicenseProcess;
+import com.github.yracnet.qualitycode.maven.plugin.process.AnalyzerProcess;
+import com.github.yracnet.qualitycode.maven.plugin.process.FormatProcess;
+import com.github.yracnet.qualitycode.maven.plugin.process.LicenseProcess;
 import java.util.Date;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.AbstractMojo;
