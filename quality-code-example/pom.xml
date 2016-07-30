@@ -9,6 +9,9 @@
 	<properties>
 		<endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<licence.year>2017</licence.year>
+		<licence.owner>Willyams Yujra</licence.owner>
+		<licence.email>yracnet@gmail.com</licence.email>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -20,6 +23,19 @@
 	</dependencies>
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>com.github.yracnet.maven</groupId>
+				<artifactId>quality-code-maven-plugin</artifactId>
+				<version>0.1.0-SNAPSHOT</version>
+				<executions>
+					<execution>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>process</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 </project>

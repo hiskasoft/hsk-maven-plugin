@@ -1,7 +1,12 @@
 package com.github.yracnet.qualitycode.maven.plugin;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Map;
 import org.apache.maven.model.Plugin;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -13,15 +18,19 @@ import org.twdata.maven.mojoexecutor.MojoExecutor;
 
 public abstract class ProcessPlugin {
 
+	public static final String PATH_CONFIG = "/META-INF/";
+
 	private final ProcessContext context;
 	private final boolean skip;
+	private final boolean create;
 	private final String name;
 	private final String config;
 
-	public ProcessPlugin(String name, boolean skip, ProcessContext context) {
+	public ProcessPlugin(String name, boolean skip, boolean create, ProcessContext context) {
 		this.context = context;
 		this.skip = skip;
-		this.name = name;
+		this.create = create;
+		this.name = name.toUpperCase();
 		this.config = name.toLowerCase() + ".xml";
 	}
 
@@ -39,6 +48,10 @@ public abstract class ProcessPlugin {
 
 	public boolean isSkip() {
 		return skip;
+	}
+
+	public boolean isCreate() {
+		return create;
 	}
 
 	public Log getLog() {
@@ -121,6 +134,25 @@ public abstract class ProcessPlugin {
 	public void footer() {
 		getLog().info("END PROCESS: " + name);
 		getLog().info("------------------------------------------------------------------------");
+	}
+
+	public String processDefaultConfig(String name, boolean createConfig) throws MojoExecutionException {
+		String path = PATH_CONFIG + name;
+		URL url = getComponentResource(path);
+		if (url == null) {
+			throw new MojoExecutionException("Not found: '" + path + "' file config");
+		}
+		if (createConfig) {
+			File file = getMavenProjectFile(name);
+			try {
+				Path from = Paths.get(url.toExternalForm());
+				Path to = Paths.get(file.getAbsolutePath());
+				Files.copy(from, to, StandardCopyOption.REPLACE_EXISTING);
+			} catch (IOException e) {
+				getLog().error("Error when create " + name + " file config");
+			}
+		}
+		return url.toExternalForm();
 	}
 
 	public abstract void execute() throws MojoExecutionException;

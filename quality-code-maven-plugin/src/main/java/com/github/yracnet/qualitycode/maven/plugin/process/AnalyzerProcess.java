@@ -3,6 +3,7 @@ package com.github.yracnet.qualitycode.maven.plugin.process;
 import com.github.yracnet.qualitycode.maven.plugin.ProcessContext;
 import com.github.yracnet.qualitycode.maven.plugin.ProcessPlugin;
 import java.io.File;
+import java.io.IOException;
 import org.apache.maven.model.Plugin;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.codehaus.plexus.util.xml.Xpp3Dom;
@@ -21,10 +22,10 @@ public class AnalyzerProcess extends ProcessPlugin {
 	private static final String MINIMUM_TOKENS = "150";
 	private static final String SOURCE_ENCODING = "UTF-8";
 	private static final String JAVA_VERSION = "1.8";
-	private static final String EXCLUDE_CONFIG = "exclude.properties";
+	private static final String EXCLUDE_CONFIG = "config/exclude.properties";
 
-	public AnalyzerProcess(boolean skip, ProcessContext context) {
-		super("ANALYZER", skip, context);
+	public AnalyzerProcess(boolean skip, boolean create, ProcessContext context) {
+		super("ANALYZER", skip, create, context);
 	}
 
 	@Override
@@ -32,7 +33,22 @@ public class AnalyzerProcess extends ProcessPlugin {
 		header();
 		Plugin analyzerPlugin = getPluginFromComponentDependency(GROUP_ID, ARTIFACT_ID);
 		assertPlugin(analyzerPlugin, GROUP_ID, ARTIFACT_ID, "<dependency>");
-		File file = getMavenProjectFile(EXCLUDE_CONFIG);
+		String excludeFile = EXCLUDE_CONFIG;
+		try {
+			File file = getMavenProjectFile(EXCLUDE_CONFIG);
+			excludeFile = file.getAbsolutePath();
+			if (file.isDirectory()) {
+				file.delete();
+				file.getParentFile().mkdirs();
+				file.createNewFile();
+			} else if (file.exists() == false) {
+				file.getParentFile().mkdirs();
+				file.createNewFile();
+			}
+		} catch (IOException e) {
+			throw new MojoExecutionException("Error at create '" + excludeFile + "' file", e);
+		}
+
 		for (String goal : GOALS) {
 			getLog().debug("->ANALYZER GOAL: " + goal);
 			Xpp3Dom configuration = configuration();
@@ -44,10 +60,7 @@ public class AnalyzerProcess extends ProcessPlugin {
 			} else if ("cpd".equals(goal)) {
 				configuration.addChild(element(name("minimumTokens"), MINIMUM_TOKENS).toDom());
 			}
-			if (file.exists() && file.isFile()) {
-				getLog().info("->Exclude file: " + file.getAbsolutePath());
-				configuration.addChild(element(name("excludeFromFailureFile"), file.getAbsolutePath()).toDom());
-			}
+			configuration.addChild(element(name("excludeFromFailureFile"), excludeFile).toDom());
 			executeMojo(
 											analyzerPlugin,
 											goal(goal),

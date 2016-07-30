@@ -32,6 +32,10 @@ public class ProcessMojo extends AbstractMojo {
 	private boolean skipLicence;
 	@Parameter(defaultValue = "false")
 	private boolean skipAnalyzer;
+	@Parameter(defaultValue = "true")
+	private boolean createFormat;
+	@Parameter(defaultValue = "true")
+	private boolean createLicence;
 
 	public void space() {
 		getLog().info("========================================================================");
@@ -46,9 +50,9 @@ public class ProcessMojo extends AbstractMojo {
 		getLog().info("PROCESS PLUGIN AT " + new Date());
 		space();
 		ProcessPlugin processPlugin[] = new ProcessPlugin[]{
-			new FormatProcess(skipFormat, context),
-			new LicenseProcess(skipLicence, context),
-			new AnalyzerProcess(skipAnalyzer, context)
+			new FormatProcess(skipFormat, createFormat, context),
+			new LicenseProcess(skipLicence, createLicence, context),
+			new AnalyzerProcess(skipAnalyzer, false, context)
 		};
 		for (ProcessPlugin process : processPlugin) {
 			if (process.isSkip() == false) {
