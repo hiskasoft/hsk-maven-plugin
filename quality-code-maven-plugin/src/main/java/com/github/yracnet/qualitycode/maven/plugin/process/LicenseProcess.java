@@ -32,14 +32,14 @@ public class LicenseProcess extends ProcessPlugin {
 		if (file.exists() && file.isFile()) {
 			licenceFile = file.getAbsolutePath();
 		} else {
-			licenceFile = processDefaultConfig(LICENCE_TEXT, true);
+			licenceFile = processDefaultConfig(LICENCE_TEXT);
 		}
 		executeMojo(
 										licensePlugin,
 										goal(GOAL),
 										configuration(
 																		element(name("header"), licenceFile),
-																		element(name("strictCheck"), "false"),
+																		element(name("strictCheck"), "true"),
 																		element(name("includes"),
 																										element(name("include"), "src/main/java/**/*.java"),
 																										element(name("include"), "src/main/webapp/*.html"),

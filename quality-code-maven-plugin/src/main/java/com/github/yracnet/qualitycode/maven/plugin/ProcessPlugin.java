@@ -2,6 +2,7 @@ package com.github.yracnet.qualitycode.maven.plugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -136,20 +137,24 @@ public abstract class ProcessPlugin {
 		getLog().info("------------------------------------------------------------------------");
 	}
 
-	public String processDefaultConfig(String name, boolean createConfig) throws MojoExecutionException {
+	public String processDefaultConfig(String name) throws MojoExecutionException {
 		String path = PATH_CONFIG + name;
 		URL url = getComponentResource(path);
 		if (url == null) {
 			throw new MojoExecutionException("Not found: '" + path + "' file config");
 		}
-		if (createConfig) {
-			File file = getMavenProjectFile(name);
+		if (isCreate()) {
 			try {
-				Path from = Paths.get(url.toExternalForm());
-				Path to = Paths.get(file.getAbsolutePath());
-				Files.copy(from, to, StandardCopyOption.REPLACE_EXISTING);
+				try (InputStream in = getComponentResource(path).openStream()) {
+					File file = getMavenProjectFile(name);
+					Files.copy(
+													in,
+													file.toPath(),
+													StandardCopyOption.REPLACE_EXISTING);
+				}
+				getLog().info("Create " + name + " file config");
 			} catch (IOException e) {
-				getLog().error("Error when create " + name + " file config");
+				getLog().error("Error when create " + name + " file config", e);
 			}
 		}
 		return url.toExternalForm();

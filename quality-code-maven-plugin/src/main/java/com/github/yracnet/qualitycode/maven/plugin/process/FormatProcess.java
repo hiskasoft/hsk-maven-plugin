@@ -21,7 +21,7 @@ public class FormatProcess extends ProcessPlugin {
 	private static final String XML_CONFIG = "config/formatter.xml";
 
 	public FormatProcess(boolean skip, boolean create, ProcessContext context) {
-		super("Format", skip, create, context);
+		super("FORMAT", skip, create, context);
 	}
 
 	@Override
@@ -34,7 +34,7 @@ public class FormatProcess extends ProcessPlugin {
 		if (file.exists() && file.isFile()) {
 			configFile = file.getAbsolutePath();
 		} else {
-			configFile = processDefaultConfig(XML_CONFIG, true);
+			configFile = processDefaultConfig(XML_CONFIG);
 		}
 		executeMojo(
 										formatterPlugin,
