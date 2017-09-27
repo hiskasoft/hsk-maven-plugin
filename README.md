@@ -17,7 +17,7 @@ The **quality-code-maven-plugin** encapsule the plugin:
 Include the quality-code-maven-plugin in your project and compile your project 
 ### pom.xml
 ```
-</project>
+<project>
  ...
  <build>
  ...
