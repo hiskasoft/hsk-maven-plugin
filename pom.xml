@@ -2,10 +2,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.yracnet.maven</groupId>
-	<artifactId>quality-code-pom</artifactId>
+	<artifactId>qualitycode-pom</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<name>quality-code-pom</name>
+	<name>qualitycode-pom</name>
 	<description>Plugin for control the basic concept of assure quality code</description>
 	<url>https://github.com/yracnet/quality-code-maven-plugin</url>
 	<licenses>
@@ -26,8 +26,8 @@
 		<url>http://github.com/yracnet/quality-code-maven-plugin/tree/master</url>
 	</scm>
 	<modules>
-		<module>quality-code-maven-plugin</module>
-		<module>quality-code-example</module>
+	 <module>qualitycode-example</module>
+	 <module>qualitycode-maven-plugin</module>
 	</modules>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

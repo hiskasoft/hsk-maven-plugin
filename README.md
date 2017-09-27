@@ -2,7 +2,7 @@
 
 You can control of java code from one plugin that embebed other plugin with pre configurations.
 
-The **quality-code-maven-plugin** encapsule the plugin:
+The **qualitycode-maven-plugin** encapsule the plugin:
  1 mojo-executor
    Executor of other plugin in one plugin
  2 formatter-maven-plugin
@@ -14,7 +14,7 @@ The **quality-code-maven-plugin** encapsule the plugin:
 
 ### Configuration
 
-Include the quality-code-maven-plugin in your project and compile your project 
+Include the qualitycode-maven-plugin in your project and compile your project 
 ### pom.xml
 ```
 <project>
@@ -25,7 +25,7 @@ Include the quality-code-maven-plugin in your project and compile your project
   ...
    <plugin>
     <groupId>com.github.yracnet.maven</groupId>
-    <artifactId>quality-code-maven-plugin</artifactId>
+    <artifactId>qualitycode-maven-plugin</artifactId>
     <version>0.1.0-SNAPSHOT</version>
     <executions>
      <execution>
