@@ -28,11 +28,11 @@ public class ProcessMojo extends AbstractMojo {
 
 	@Parameter(defaultValue = "false")
 	private boolean skipFormat;
-	@Parameter(defaultValue = "true")
+	@Parameter(defaultValue = "false")
 	private boolean createFormat;
 	@Parameter(defaultValue = "false")
 	private boolean skipLicence;
-	@Parameter(defaultValue = "true")
+	@Parameter(defaultValue = "false")
 	private boolean createLicence;
 	@Parameter(defaultValue = "false")
 	private boolean skipAnalyzer;
