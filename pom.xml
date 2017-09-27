@@ -5,6 +5,26 @@
 	<artifactId>quality-code-pom</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
+	<name>quality-code-pom</name>
+	<description>Plugin for control the basic concept of assure quality code</description>
+	<url>https://github.com/yracnet/quality-code-maven-plugin</url>
+	<licenses>
+		<license>
+			<name>The Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+		</license>
+	</licenses>
+	<developers>
+		<developer>
+			<name>Willyams Yujra</name>
+			<email>yracnet@gmail.com</email>
+		</developer>
+	</developers>
+	<scm>
+		<connection>scm:git:git://github.com/yracnet/quality-code-maven-plugin.git</connection>
+		<developerConnection>scm:git:ssh://github.com:yracnet/quality-code-maven-plugin.git</developerConnection>
+		<url>http://github.com/yracnet/quality-code-maven-plugin/tree/master</url>
+	</scm>
 	<modules>
 		<module>quality-code-maven-plugin</module>
 		<module>quality-code-example</module>
