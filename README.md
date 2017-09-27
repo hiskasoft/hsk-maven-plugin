@@ -5,11 +5,11 @@ You can control of java code from one plugin that embebed other plugin with pre 
 The **qualitycode-maven-plugin** encapsule the plugin:
  1 mojo-executor
    Executor of other plugin in one plugin
- 2 formatter-maven-plugin
+ 2. formatter-maven-plugin
    Formater source code for JS/JAVA/HTML/XML
- 3 license-maven-plugin
+ 3. license-maven-plugin
    Add Header Licence for copyrigth 
- 4 maven-pmd-plugin
+ 4. maven-pmd-plugin
    Check of quality code
 
 ### Configuration
@@ -44,12 +44,13 @@ Include the qualitycode-maven-plugin in your project and compile your project
 </project>
 ```
 You can enabled or disabled the process control with the flag:
-  skipFormat   (default: false)
-  skipLicence  (default: false)
-  skipAnalyzer (default: false)
+  * skipFormat   (default: false)
+  * skipLicence  (default: false)
+  * skipAnalyzer (default: false)
+
 You can create de file config into the directory /config with the flag:
-  createFormat  (default: false)
-  createLicence (default: false)
+  * createFormat  (default: false)
+  * createLicence (default: false)
 
 
 ### Contact
