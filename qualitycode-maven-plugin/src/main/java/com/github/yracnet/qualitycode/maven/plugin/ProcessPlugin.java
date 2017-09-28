@@ -1,3 +1,18 @@
+/**
+ * Copyright © ${project.inceptionYear} ${owner} (${email})
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.github.yracnet.qualitycode.maven.plugin;
 
 import java.io.File;
@@ -5,46 +20,27 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.Map;
+import org.apache.maven.artifact.Artifact;
 import org.apache.maven.model.Plugin;
 import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.descriptor.PluginDescriptor;
 import org.apache.maven.plugin.logging.Log;
-import org.apache.maven.project.MavenProject;
-import org.codehaus.plexus.component.repository.ComponentDependency;
 import org.twdata.maven.mojoexecutor.MojoExecutor;
 
 public abstract class ProcessPlugin {
-
 	public static final String PATH_CONFIG = "/META-INF/";
-
 	private final ProcessContext context;
 	private final boolean skip;
 	private final boolean create;
 	private final String name;
-	private final String config;
+	private final Log log;
 
 	public ProcessPlugin(String name, boolean skip, boolean create, ProcessContext context) {
-		this.context = context;
+		this.name = name.toUpperCase();
 		this.skip = skip;
 		this.create = create;
-		this.name = name.toUpperCase();
-		this.config = name.toLowerCase() + ".xml";
-	}
-
-	public String getNameProcess() {
-		return name;
-	}
-
-	public String getConfigProcess() {
-		return config;
-	}
-
-	public ProcessContext getContext() {
-		return context;
+		this.context = context;
+		this.log = context.getLog();
 	}
 
 	public boolean isSkip() {
@@ -56,15 +52,7 @@ public abstract class ProcessPlugin {
 	}
 
 	public Log getLog() {
-		return context.getLog();
-	}
-
-	public Map getPluginContext() {
-		return context.getPluginContext();
-	}
-
-	public PluginDescriptor getPluginDescriptor() {
-		return context.getPluginDescriptor();
+		return log;
 	}
 
 	public URL getComponentResource(String name) {
@@ -72,35 +60,23 @@ public abstract class ProcessPlugin {
 	}
 
 	public File getMavenProjectFile(String name) {
-		return new File(context.getMavenProject().getBasedir() + "/" + name);
-	}
-
-	public String getPathFromMavenProjectOrComponent(String fileProject, String fileComponent) {
-		File file = getMavenProjectFile(fileProject);
-		if (file.exists()) {
-			return file.getAbsolutePath();
-		}
-		URL url = getComponentResource(fileComponent);
-		if (url == null) {
-			return null;
-		}
-		return url.toExternalForm();
+		return new File(context.getProject().getBasedir() + "/" + name);
 	}
 
 	public Plugin getPluginFromComponentDependency(String groupId, String artifactId) {
-		ComponentDependency dependency = context.getComponentDependency(groupId, artifactId);
-		if (dependency != null) {
+		Artifact artifact = context.getArtifactFromComponentDependency(groupId + ":" + artifactId);
+		if (artifact != null) {
 			Plugin plugin = new Plugin();
-			plugin.setGroupId(dependency.getGroupId());
-			plugin.setArtifactId(dependency.getArtifactId());
-			plugin.setVersion(dependency.getVersion());
+			plugin.setGroupId(artifact.getGroupId());
+			plugin.setArtifactId(artifact.getArtifactId());
+			plugin.setVersion(artifact.getVersion());
 			return plugin;
 		}
 		return null;
 	}
 
-	public MojoExecutor.ExecutionEnvironment currentExecutionEnvironment() {
-		return context.getCurrentExecutionEnvironment();
+	public MojoExecutor.ExecutionEnvironment executionEnvironment() {
+		return context.getExecutionEnvironment();
 	}
 
 	public void assertPlugin(Plugin plugin, String groupId, String artifactId, String tag) throws MojoExecutionException {
@@ -109,32 +85,19 @@ public abstract class ProcessPlugin {
 		}
 	}
 
-	public void assertLocalResource(URL url, String file) throws MojoExecutionException {
-		if (url == null) {
-			throw new MojoExecutionException("No se ha encontrado el archivo '" + file + "'");
-		}
-	}
-
-	public MavenProject getMavenProject() {
-		return context.getMavenProject();
-	}
-
-	public String getMavenProjectArtifactId() {
-		return context.getMavenProject().getArtifactId();
-	}
-
-	public String getMavenProjectGroupId() {
-		return context.getMavenProject().getGroupId();
+	public void space() {
+		log.info("------------------------------------------------------------------------");
 	}
 
 	public void header() {
-		getLog().info("------------------------------------------------------------------------");
-		getLog().info("START PROCESS: " + name + " FOR: " + getMavenProjectArtifactId());
+		space();
+		log.info("START PROCESS: " + name + " FOR: " + context.getProjectArtifactId());
+		space();
 	}
 
 	public void footer() {
-		getLog().info("END PROCESS: " + name);
-		getLog().info("------------------------------------------------------------------------");
+		log.info("END PROCESS: " + name);
+		space();
 	}
 
 	public String processDefaultConfig(String name) throws MojoExecutionException {
@@ -147,17 +110,23 @@ public abstract class ProcessPlugin {
 			try {
 				try (InputStream in = getComponentResource(path).openStream()) {
 					File file = getMavenProjectFile(name);
-					Files.copy(
-													in,
-													file.toPath(),
-													StandardCopyOption.REPLACE_EXISTING);
+					file.getParentFile().mkdirs();
+					Files.copy(in, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
 				}
-				getLog().info("Create " + name + " file config");
+				log.info("Create " + name + " file config");
 			} catch (IOException e) {
-				getLog().error("Error when create " + name + " file config", e);
+				log.error("Error when create " + name + " file config", e);
 			}
 		}
 		return url.toExternalForm();
+	}
+
+	public void executeProcess() throws MojoExecutionException {
+		header();
+		if (skip == false) {
+			execute();
+		}
+		footer();
 	}
 
 	public abstract void execute() throws MojoExecutionException;

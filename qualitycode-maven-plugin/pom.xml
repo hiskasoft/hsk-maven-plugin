@@ -32,6 +32,8 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.source.version>1.8</java.source.version>
 		<java.target.version>1.8</java.target.version>
+		<owner>Willyams Yujra</owner>
+		<email>yracnet@gmail.com</email>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -78,6 +80,18 @@
 	</distributionManagement>
 	<build>
 		<plugins>
+			<!--plugin>
+				<groupId>com.github.yracnet.maven</groupId>
+				<artifactId>qualitycode-maven-plugin</artifactId>
+				<version>0.1.0</version>				
+				<executions>
+					<execution>
+						<goals>
+							<goal>process</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin-->
 			<plugin>
 				<groupId>org.sonatype.plugins</groupId>
 				<artifactId>nexus-staging-maven-plugin</artifactId>

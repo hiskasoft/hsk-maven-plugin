@@ -1,3 +1,18 @@
+/**
+ * Copyright © ${project.inceptionYear} ${owner} (${email})
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.github.yracnet.qualitycode.maven.plugin.process;
 
 import com.github.yracnet.qualitycode.maven.plugin.ProcessContext;
@@ -5,14 +20,9 @@ import com.github.yracnet.qualitycode.maven.plugin.ProcessPlugin;
 import java.io.File;
 import org.apache.maven.model.Plugin;
 import org.apache.maven.plugin.MojoExecutionException;
-import static org.twdata.maven.mojoexecutor.MojoExecutor.configuration;
-import static org.twdata.maven.mojoexecutor.MojoExecutor.element;
-import static org.twdata.maven.mojoexecutor.MojoExecutor.executeMojo;
-import static org.twdata.maven.mojoexecutor.MojoExecutor.goal;
-import static org.twdata.maven.mojoexecutor.MojoExecutor.name;
+import static org.twdata.maven.mojoexecutor.MojoExecutor.*;
 
 public class FormatProcess extends ProcessPlugin {
-
 	private static final String GROUP_ID = "net.revelc.code";
 	private static final String ARTIFACT_ID = "formatter-maven-plugin";
 	private static final String GOAL = "format";
@@ -26,7 +36,6 @@ public class FormatProcess extends ProcessPlugin {
 
 	@Override
 	public void execute() throws MojoExecutionException {
-		header();
 		Plugin formatterPlugin = getPluginFromComponentDependency(GROUP_ID, ARTIFACT_ID);
 		assertPlugin(formatterPlugin, GROUP_ID, ARTIFACT_ID, "<dependency>");
 		String configFile;
@@ -36,16 +45,7 @@ public class FormatProcess extends ProcessPlugin {
 		} else {
 			configFile = processDefaultConfig(XML_CONFIG);
 		}
-		executeMojo(
-										formatterPlugin,
-										goal(GOAL),
-										configuration(
-																		element(name("lineEnding"), ENDLINE),
-																		element(name("encoding"), ENCODING),
-																		element(name("configFile"), configFile)
-										),
-										currentExecutionEnvironment()
-		);
-		footer();
+		executeMojo(formatterPlugin, goal(GOAL), configuration(element(name("lineEnding"), ENDLINE), element(name("encoding"), ENCODING), element(name("configFile"), configFile)),
+				executionEnvironment());
 	}
 }
