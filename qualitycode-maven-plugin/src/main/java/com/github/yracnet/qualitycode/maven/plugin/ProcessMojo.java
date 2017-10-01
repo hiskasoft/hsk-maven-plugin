@@ -26,22 +26,28 @@ import org.apache.maven.plugin.MojoExecution;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.descriptor.PluginDescriptor;
 import org.apache.maven.plugins.annotations.Component;
+import org.apache.maven.plugins.annotations.Execute;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.twdata.maven.mojoexecutor.MojoExecutor;
 import static org.twdata.maven.mojoexecutor.MojoExecutor.executionEnvironment;
-
-@Mojo(name = "process", defaultPhase = LifecyclePhase.PROCESS_SOURCES)
+import org.apache.maven.lifecycle.mapping.DefaultLifecycleMapping;
+@Mojo(name = "process",
+								defaultPhase = LifecyclePhase.PROCESS_SOURCES)
+//@Execute(goal = "process",
+//								phase = LifecyclePhase.PROCESS_SOURCES,
+//								lifecycle = "jar")
 public class ProcessMojo extends AbstractMojo {
-	@Component
+
+	@Parameter( defaultValue = "${project}", readonly = true )
 	private MavenProject project;
-	@Component
+	@Parameter( defaultValue = "${session}", readonly = true )
 	private MavenSession session;
 	@Component
 	private BuildPluginManager pluginManager;
-	@Component
+	@Parameter( defaultValue = "${mojoExecution}", readonly = true )
 	private MojoExecution execution;
 	@Parameter(defaultValue = "false")
 	private boolean skipFormat;
@@ -59,11 +65,16 @@ public class ProcessMojo extends AbstractMojo {
 		if (isPackagingPOM()) {
 			return;
 		}
-		ProcessContext context = new ProcessContext(project, getPluginDescriptor(), getCurrentExecutionEnvironment(), getLog());
+		ProcessContext context = new ProcessContext(project,
+										getPluginDescriptor(),
+										getCurrentExecutionEnvironment(),
+										getLog());
 		getLog().info("PROCESS PLUGIN AT " + new Date() + " IN " + execution.getExecutionId() + " - " + execution.getLifecyclePhase());
 		space();
-		ProcessPlugin processPlugin[] = new ProcessPlugin[]{new FormatProcess(skipFormat, createFormat, context), new LicenseProcess(skipLicence, createLicence, context),
-				new AnalyzerProcess(skipAnalyzer, false, context)};
+		ProcessPlugin processPlugin[] = new ProcessPlugin[]{
+			new FormatProcess(skipFormat, createFormat, context),
+			new LicenseProcess(skipLicence, createLicence, context),
+			new AnalyzerProcess(skipAnalyzer, false, context)};
 		for (ProcessPlugin process : processPlugin) {
 			process.executeProcess();
 		}

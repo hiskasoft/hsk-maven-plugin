@@ -23,6 +23,7 @@ import org.apache.maven.plugin.MojoExecutionException;
 import static org.twdata.maven.mojoexecutor.MojoExecutor.*;
 
 public class LicenseProcess extends ProcessPlugin {
+
 	private static final String GROUP_ID = "com.mycila";
 	private static final String ARTIFACT_ID = "license-maven-plugin";
 	private static final String GOAL = "format";
@@ -44,14 +45,20 @@ public class LicenseProcess extends ProcessPlugin {
 			licenceFile = processDefaultConfig(LICENCE_TEXT);
 		}
 		executeMojo(
-				licensePlugin,
-				goal(GOAL),
-				configuration(
-						element(name("header"), licenceFile),
-						element(name("strictCheck"), "true"),
-						element(name("includes"), element(name("include"), "src/main/java/**/*.java"), element(name("include"), "src/main/webapp/*.html"),
-								element(name("include"), "src/main/webapp/view/*.html"), element(name("include"), "src/main/webapp/ctrl/**/*.js")),
-						element(name("excludes"), element(name("exclude"), "src/main/webapp/part/**/*.*"), element(name("exclude"), "src/main/webapp/include/**/*.*"),
-								element(name("exclude"), "src/main/webapp/fragment/**/*.*"))), executionEnvironment());
+										licensePlugin,
+										goal(GOAL),
+										configuration(
+																		element(name("header"), licenceFile),
+																		element(name("strictCheck"), "true"),
+																		element(name("includes"),
+																										element(name("include"), "src/main/java/**/*.java"),
+																										element(name("include"), "src/main/webapp/*.html"),
+																										element(name("include"), "src/main/webapp/view/*.html"),
+																										element(name("include"), "src/main/webapp/ctrl/**/*.js")),
+																		element(name("excludes"),
+																										element(name("exclude"), "src/main/webapp/part/**/*.*"),
+																										element(name("exclude"), "src/main/webapp/include/**/*.*"),
+																										element(name("exclude"), "src/main/webapp/fragment/**/*.*"))),
+										executionEnvironment());
 	}
 }

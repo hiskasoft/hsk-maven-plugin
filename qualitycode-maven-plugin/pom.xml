@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.yracnet.maven</groupId>
 	<artifactId>qualitycode-maven-plugin</artifactId>
-	<version>0.1.0</version>
+	<version>0.1.1</version>
 	<packaging>maven-plugin</packaging>
 	<name>qualitycode-maven-plugin</name>
 	<description>Plugin for control the basic concept of assure quality code</description>
@@ -80,18 +80,6 @@
 	</distributionManagement>
 	<build>
 		<plugins>
-			<!--plugin>
-				<groupId>com.github.yracnet.maven</groupId>
-				<artifactId>qualitycode-maven-plugin</artifactId>
-				<version>0.1.0</version>				
-				<executions>
-					<execution>
-						<goals>
-							<goal>process</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin-->
 			<plugin>
 				<groupId>org.sonatype.plugins</groupId>
 				<artifactId>nexus-staging-maven-plugin</artifactId>

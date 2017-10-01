@@ -28,6 +28,7 @@ import org.apache.maven.plugin.logging.Log;
 import org.twdata.maven.mojoexecutor.MojoExecutor;
 
 public abstract class ProcessPlugin {
+
 	public static final String PATH_CONFIG = "/META-INF/";
 	private final ProcessContext context;
 	private final boolean skip;
@@ -79,7 +80,8 @@ public abstract class ProcessPlugin {
 		return context.getExecutionEnvironment();
 	}
 
-	public void assertPlugin(Plugin plugin, String groupId, String artifactId, String tag) throws MojoExecutionException {
+	public void assertPlugin(Plugin plugin, String groupId, String artifactId, String tag)
+									throws MojoExecutionException {
 		if (plugin == null) {
 			throw new MojoExecutionException("No se ha encontrado el plugin '" + groupId + ":" + artifactId + "' dentro de " + tag);
 		}
@@ -89,15 +91,16 @@ public abstract class ProcessPlugin {
 		log.info("------------------------------------------------------------------------");
 	}
 
+	public void skip() {
+		log.info("SKIP PROCESS: " + name + " FOR: " + context.getProjectArtifactId());
+	}
+
 	public void header() {
-		space();
 		log.info("START PROCESS: " + name + " FOR: " + context.getProjectArtifactId());
-		space();
 	}
 
 	public void footer() {
 		log.info("END PROCESS: " + name);
-		space();
 	}
 
 	public String processDefaultConfig(String name) throws MojoExecutionException {
@@ -108,7 +111,7 @@ public abstract class ProcessPlugin {
 		}
 		if (isCreate()) {
 			try {
-				try (InputStream in = getComponentResource(path).openStream()) {
+				try (InputStream in = url.openStream()) {
 					File file = getMavenProjectFile(name);
 					file.getParentFile().mkdirs();
 					Files.copy(in, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
@@ -122,11 +125,16 @@ public abstract class ProcessPlugin {
 	}
 
 	public void executeProcess() throws MojoExecutionException {
-		header();
+		space();
 		if (skip == false) {
+			header();
+			space();
 			execute();
+			footer();
+		} else {
+			skip();
 		}
-		footer();
+		space();
 	}
 
 	public abstract void execute() throws MojoExecutionException;
