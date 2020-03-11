@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.yracnet.maven</groupId>
 	<artifactId>qualitycode-pom</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<packaging>pom</packaging>
 	<name>qualitycode-pom</name>
 	<description>Plugin for control the basic concept of assure quality code</description>

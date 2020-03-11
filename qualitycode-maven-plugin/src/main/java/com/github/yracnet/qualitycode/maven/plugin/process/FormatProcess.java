@@ -23,29 +23,36 @@ import org.apache.maven.plugin.MojoExecutionException;
 import static org.twdata.maven.mojoexecutor.MojoExecutor.*;
 
 public class FormatProcess extends ProcessPlugin {
-	private static final String GROUP_ID = "net.revelc.code";
-	private static final String ARTIFACT_ID = "formatter-maven-plugin";
-	private static final String GOAL = "format";
-	private static final String ENCODING = "UTF-8";
-	private static final String ENDLINE = "CRLF";
-	private static final String XML_CONFIG = "config/formatter.xml";
+    private static final String GROUP_ID = "net.revelc.code.formatter";
+    private static final String ARTIFACT_ID = "formatter-maven-plugin";
+    private static final String GOAL = "format";
+    private static final String ENCODING = "UTF-8";
+    private static final String ENDLINE = "CRLF";
+    private static final String XML_CONFIG = "config/formatter.xml";
 
-	public FormatProcess(boolean skip, boolean create, ProcessContext context) {
-		super("FORMAT", skip, create, context);
-	}
+    public FormatProcess(boolean skip, boolean create, ProcessContext context) {
+        super("FORMAT", skip, create, context);
+    }
 
-	@Override
-	public void execute() throws MojoExecutionException {
-		Plugin formatterPlugin = getPluginFromComponentDependency(GROUP_ID, ARTIFACT_ID);
-		assertPlugin(formatterPlugin, GROUP_ID, ARTIFACT_ID, "<dependency>");
-		String configFile;
-		File file = getMavenProjectFile(XML_CONFIG);
-		if (file.exists() && file.isFile()) {
-			configFile = file.getAbsolutePath();
-		} else {
-			configFile = processDefaultConfig(XML_CONFIG);
-		}
-		executeMojo(formatterPlugin, goal(GOAL), configuration(element(name("lineEnding"), ENDLINE), element(name("encoding"), ENCODING), element(name("configFile"), configFile)),
-				executionEnvironment());
-	}
+    @Override
+    public void execute() throws MojoExecutionException {
+        Plugin formatterPlugin = getPluginFromComponentDependency(GROUP_ID, ARTIFACT_ID);
+        assertPlugin(formatterPlugin, GROUP_ID, ARTIFACT_ID, "<dependency>");
+        String configFile;
+        File file = getMavenProjectFile(XML_CONFIG);
+        if (file.exists() && file.isFile()) {
+            configFile = file.getAbsolutePath();
+        } else {
+            configFile = processDefaultConfig(XML_CONFIG);
+        }
+        executeMojo(formatterPlugin, //
+                goal(GOAL),//
+                configuration(//
+                        element(name("lineEnding"), ENDLINE),//
+                        element(name("encoding"), ENCODING),//
+                        element(name("configFile"), configFile)//
+                ),//
+                executionEnvironment()
+        );
+    }
 }

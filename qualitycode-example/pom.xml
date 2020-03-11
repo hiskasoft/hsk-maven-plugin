@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.yracnet.maven</groupId>
 	<artifactId>qualitycode-example</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<packaging>war</packaging>
 	<name>qualitycode-example</name>
 	<description>Example project for use th plugin for control the basic concept</description>
@@ -33,7 +33,13 @@
 		<licence.email>yracnet@gmail.com</licence.email>
 	</properties>
 	<dependencies>
-		<dependency>
+	 <dependency>
+	  <groupId>javax.xml.bind</groupId>
+	  <artifactId>jaxb-api</artifactId>
+	  <version>2.3.1</version>
+          <scope>provided</scope>
+	 </dependency>
+	 <dependency>
 			<groupId>javax</groupId>
 			<artifactId>javaee-web-api</artifactId>
 			<version>7.0</version>
@@ -45,7 +51,7 @@
 			<plugin>
 				<groupId>com.github.yracnet.maven</groupId>
 				<artifactId>qualitycode-maven-plugin</artifactId>
-				<version>0.1.1</version>
+				<version>0.1.2</version>
 				<executions>
 					<execution>
 						<goals>
