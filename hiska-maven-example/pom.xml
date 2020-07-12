@@ -6,7 +6,7 @@
   </license></licenses><developers><developer><name>Willyams Yujra</name><email>yracnet@gmail.com</email></developer></developers><scm>
   <connection>scm:git:git://github.com/yracnet/hiska-maven-plugin.git</connection><developerConnection>scm:git:ssh://github.com:yracnet/hiska-maven-plugin.git</developerConnection>
   <url>http://github.com/yracnet/hiska-maven-plugin/tree/master</url></scm><properties><endorsed.dir>${project.build.directory}/endorsed</endorsed.dir><project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  <licence.year>2017</licence.year><licence.owner>Willyams Yujra</licence.owner><licence.email>yracnet@gmail.com</licence.email></properties>
+  <licence.year>2017</licence.year><licence.owner>Willyams Yujra</licence.owner><licence.email>yracnet@gmail.com</licence.email><maven.deploy.skip>true</maven.deploy.skip></properties>
   <dependencies><dependency><groupId>javax.xml.bind</groupId><artifactId>jaxb-api</artifactId><version>2.3.1</version><scope>provided</scope>
   </dependency><dependency><groupId>javax</groupId><artifactId>javaee-web-api</artifactId><version>7.0</version><scope>provided</scope></dependency>
   </dependencies><build><plugins><plugin><groupId>com.hiskasoft.maven</groupId><artifactId>hiska-maven-plugin</artifactId>
