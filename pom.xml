@@ -2,12 +2,22 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.hiskasoft.maven</groupId>
-    <artifactId>hsk-maven</artifactId>
-    <version>1.0.0</version>
+    <artifactId>hiska-maven</artifactId>
+    <version>1.0.1</version>
     <packaging>pom</packaging>
-    <name>hsk-maven</name>
+    <name>hiska-maven</name>
     <description>Plugin for control the basic concept of assure quality code</description>
-    <url>https://github.com/yracnet/hsk-maven-plugin</url>
+    <url>https://github.com/hiskasoft/hiska-maven-plugin</url>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+    </properties>
+    <modules>
+        <module>hiska-maven-process</module>
+        <module>hiska-maven-plugin</module>
+        <module>hiska-maven-example</module>
+    </modules>
     <licenses>
         <license>
             <name>The Apache License, Version 2.0</name>
@@ -21,18 +31,8 @@
         </developer>
     </developers>
     <scm>
-        <connection>scm:git:git://github.com/yracnet/hsk-maven-plugin.git</connection>
-        <developerConnection>scm:git:ssh://github.com:yracnet/hsk-maven-plugin.git</developerConnection>
-        <url>http://github.com/yracnet/hsk-maven-plugin/tree/master</url>
+        <connection>scm:git:git://github.com/hiskasoft/hiska-maven-plugin.git</connection>
+        <developerConnection>scm:git:ssh://github.com:hiskasoft/hiska-maven-plugin.git</developerConnection>
+        <url>http://github.com/hiskasoft/hiska-maven-plugin/tree/master</url>
     </scm>
-    <modules>
-        <module>hsk-maven-ext</module>
-        <module>hsk-maven-plugin</module>
-        <module>hsk-maven-example</module>
-    </modules>
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
-    </properties>
 </project>

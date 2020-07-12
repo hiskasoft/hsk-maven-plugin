@@ -2,7 +2,7 @@
 
 You can control of java code from one plugin that embebed other plugin with pre configurations.
 
-The **hsk-maven-plugin** encapsule the plugin:
+The **hiska-maven-plugin** encapsule the plugin:
  1 mojo-executor
    Executor of other plugin in one plugin
  2. formatter-maven-plugin
@@ -14,7 +14,7 @@ The **hsk-maven-plugin** encapsule the plugin:
 
 ### Configuration
 
-Include the hsk-maven-plugin in your project and compile your project 
+Include the hiska-maven-plugin in your project and compile your project 
 ### pom.xml
 ```
 <project>
@@ -25,7 +25,7 @@ Include the hsk-maven-plugin in your project and compile your project
   ...
    <plugin>
     <groupId>com.hiskasoft.maven</groupId>
-    <artifactId>hsk-maven-plugin</artifactId>
+    <artifactId>hiska-maven-plugin</artifactId>
     <version>${last-version}</version>
     <executions>
      <execution>
