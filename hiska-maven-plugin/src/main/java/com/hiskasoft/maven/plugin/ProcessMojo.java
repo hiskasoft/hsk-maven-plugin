@@ -16,7 +16,7 @@
 package com.hiskasoft.maven.plugin;
 
 import com.hiskasoft.maven.internal.AnalyzerProcess;
-import com.hiskasoft.maven.internal.FormatJavaProcess;
+import com.hiskasoft.maven.internal.FormatProcess;
 import com.hiskasoft.maven.internal.FormatXmlProcess;
 import com.hiskasoft.maven.internal.LicenseProcess;
 import com.hiskasoft.maven.process.Logger;
@@ -52,7 +52,7 @@ public class ProcessMojo extends AbstractMojo implements Config {
     @Parameter(defaultValue = "false")
     private boolean skip;
 
-    @Parameter(defaultValue = "UTF-8")
+    @Parameter(defaultValue = "UTF-8", property = "project.build.sourceEncoding")
     private String encoding;
     @Parameter(defaultValue = "CRLF")
     private String lineEnding;
@@ -64,6 +64,8 @@ public class ProcessMojo extends AbstractMojo implements Config {
     @Parameter(defaultValue = "false")
     private boolean skipAnalyzer;
 
+    @Parameter(defaultValue = "false")
+    private boolean skipFormat;
     @Parameter(defaultValue = "false")
     private boolean skipCss;
     @Parameter(defaultValue = "false")
@@ -92,8 +94,8 @@ public class ProcessMojo extends AbstractMojo implements Config {
         space();
 
         AbstractProcess processPlugin[] = new AbstractProcess[]{
-            new FormatJavaProcess(skipJava, this, context, logger),
-            new FormatXmlProcess(skipXml, this, context, logger),
+            new FormatProcess(skipFormat, this, context, logger),
+            new FormatXmlProcess(skipFormat, this, context, logger),
             new LicenseProcess(skipLicence, this, context, logger),
             new AnalyzerProcess(skipAnalyzer, this, context, logger)
         };

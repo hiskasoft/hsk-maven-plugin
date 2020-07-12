@@ -84,7 +84,7 @@ public abstract class AbstractProcess implements Process {
     @Override
     public void execute() throws Exception {
         logger.start(this);
-        if (skip == false) {
+        if (isSkip() == false) {
             executeInternal();
         } else {
             logger.start(this);
