@@ -26,9 +26,9 @@
         <url>http://github.com/yracnet/hsk-maven-plugin/tree/master</url>
     </scm>
     <modules>
+        <module>hsk-maven-ext</module>
         <module>hsk-maven-plugin</module>
         <module>hsk-maven-example</module>
-        <module>hsk-maven-ext</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
