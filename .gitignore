@@ -10,7 +10,6 @@ buildNumber.properties
 
 # Avoid ignoring Maven wrapper jar file (.jar files are usually ignored)
 !/.mvn/wrapper/maven-wrapper.jar
+/hiska-maven-example/pom.xml
 /hiska-maven-example/src
 /hiska-maven-example/config
-/hsk-app/src
-/hsk-app/config
