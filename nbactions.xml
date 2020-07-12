@@ -5,7 +5,6 @@
         <displayName>maven:deploy</displayName>
         <goals>
             <goal>clean</goal>
-            <goal>package</goal>
             <goal>deploy</goal>
         </goals>
     </action>
