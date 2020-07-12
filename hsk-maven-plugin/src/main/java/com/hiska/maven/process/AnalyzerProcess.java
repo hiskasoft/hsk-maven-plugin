@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.yracnet.qualitycode.maven.plugin.process;
+package com.hiska.maven.process;
 
-import com.github.yracnet.qualitycode.maven.plugin.ProcessContext;
-import com.github.yracnet.qualitycode.maven.plugin.ProcessPlugin;
+import com.hiska.maven.plugin.ProcessContext;
+import com.hiska.maven.plugin.ProcessPlugin;
 import java.io.File;
 import java.io.IOException;
 import org.apache.maven.model.Plugin;

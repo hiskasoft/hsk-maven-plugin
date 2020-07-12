@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.yracnet.qualitycode.maven.plugin;
+package com.hiska.maven.plugin;
 
-import com.github.yracnet.qualitycode.maven.plugin.process.AnalyzerProcess;
-import com.github.yracnet.qualitycode.maven.plugin.process.FormatProcess;
-import com.github.yracnet.qualitycode.maven.plugin.process.LicenseProcess;
+import com.hiska.maven.process.AnalyzerProcess;
+import com.hiska.maven.process.FormatProcess;
+import com.hiska.maven.process.LicenseProcess;
 import java.util.Date;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.AbstractMojo;

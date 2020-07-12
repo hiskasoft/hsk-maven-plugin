@@ -1,8 +1,8 @@
-# Quality Code Maven Plugin
+# HSK Maven Plugin
 
 You can control of java code from one plugin that embebed other plugin with pre configurations.
 
-The **qualitycode-maven-plugin** encapsule the plugin:
+The **hsk-maven-plugin** encapsule the plugin:
  1 mojo-executor
    Executor of other plugin in one plugin
  2. formatter-maven-plugin
@@ -14,7 +14,7 @@ The **qualitycode-maven-plugin** encapsule the plugin:
 
 ### Configuration
 
-Include the qualitycode-maven-plugin in your project and compile your project 
+Include the hsk-maven-plugin in your project and compile your project 
 ### pom.xml
 ```
 <project>
@@ -25,8 +25,8 @@ Include the qualitycode-maven-plugin in your project and compile your project
   ...
    <plugin>
     <groupId>com.hiska.maven</groupId>
-    <artifactId>qualitycode-maven-plugin</artifactId>
-    <version>0.1.1</version>
+    <artifactId>hsk-maven-plugin</artifactId>
+    <version>${last-version}</version>
     <executions>
      <execution>
       <phase>process-resources</phase>
@@ -43,16 +43,6 @@ Include the qualitycode-maven-plugin in your project and compile your project
  ...
 </project>
 ```
-You can enabled or disabled the process control with the flag:
-  * skipFormat   (default: false)
-  * skipLicence  (default: false)
-  * skipAnalyzer (default: false)
-
-You can create de file config into the directory /config with the flag:
-  * createFormat  (default: false)
-  * createLicence (default: false)
-
-
 ### Contact
 
-If you have any question, send a email to yracnet@gmail.com.
+If you have any question, send a email to wyujra@hiskasoft.com.

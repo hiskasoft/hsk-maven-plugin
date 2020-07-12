@@ -28,6 +28,7 @@
     <modules>
         <module>hsk-maven-plugin</module>
         <module>hsk-maven-example</module>
+        <module>hsk-maven-ext</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
