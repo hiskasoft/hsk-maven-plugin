@@ -16,7 +16,7 @@
 package com.hiskasoft.maven.plugin;
 
 import com.hiskasoft.maven.process.AnalyzerProcess;
-import com.hiskasoft.maven.process.FormatProcess;
+import com.hiskasoft.maven.process.FormatJavaProcess;
 import com.hiskasoft.maven.process.LicenseProcess;
 import java.util.Date;
 import org.apache.maven.execution.MavenSession;
@@ -26,19 +26,13 @@ import org.apache.maven.plugin.MojoExecution;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.descriptor.PluginDescriptor;
 import org.apache.maven.plugins.annotations.Component;
-import org.apache.maven.plugins.annotations.Execute;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.twdata.maven.mojoexecutor.MojoExecutor;
 import static org.twdata.maven.mojoexecutor.MojoExecutor.executionEnvironment;
-import org.apache.maven.lifecycle.mapping.DefaultLifecycleMapping;
-@Mojo(name = "process",
-								defaultPhase = LifecyclePhase.PROCESS_SOURCES)
-//@Execute(goal = "process",
-//								phase = LifecyclePhase.PROCESS_SOURCES,
-//								lifecycle = "jar")
+@Mojo(name = "process", defaultPhase = LifecyclePhase.PROCESS_SOURCES)
 public class ProcessMojo extends AbstractMojo {
 
 	@Parameter( defaultValue = "${project}", readonly = true )
@@ -52,11 +46,7 @@ public class ProcessMojo extends AbstractMojo {
 	@Parameter(defaultValue = "false")
 	private boolean skipFormat;
 	@Parameter(defaultValue = "false")
-	private boolean createFormat;
-	@Parameter(defaultValue = "false")
 	private boolean skipLicence;
-	@Parameter(defaultValue = "false")
-	private boolean createLicence;
 	@Parameter(defaultValue = "false")
 	private boolean skipAnalyzer;
 
@@ -72,9 +62,9 @@ public class ProcessMojo extends AbstractMojo {
 		getLog().info("PROCESS PLUGIN AT " + new Date() + " IN " + execution.getExecutionId() + " - " + execution.getLifecyclePhase());
 		space();
 		ProcessPlugin processPlugin[] = new ProcessPlugin[]{
-			new FormatProcess(skipFormat, createFormat, context),
-			new LicenseProcess(skipLicence, createLicence, context),
-			new AnalyzerProcess(skipAnalyzer, false, context)};
+			new FormatJavaProcess(skipFormat, context),
+			new LicenseProcess(skipLicence, context),
+			new AnalyzerProcess(skipAnalyzer, context)};
 		for (ProcessPlugin process : processPlugin) {
 			process.executeProcess();
 		}

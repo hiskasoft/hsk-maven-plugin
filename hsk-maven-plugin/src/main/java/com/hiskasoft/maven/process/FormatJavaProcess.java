@@ -1,18 +1,3 @@
-/**
- * Copyright © ${project.inceptionYear} ${owner} (${email})
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.hiskasoft.maven.process;
 
 import com.hiskasoft.maven.plugin.ProcessContext;
@@ -22,7 +7,7 @@ import org.apache.maven.model.Plugin;
 import org.apache.maven.plugin.MojoExecutionException;
 import static org.twdata.maven.mojoexecutor.MojoExecutor.*;
 
-public class FormatProcess extends ProcessPlugin {
+public class FormatJavaProcess extends ProcessPlugin {
     private static final String GROUP_ID = "net.revelc.code.formatter";
     private static final String ARTIFACT_ID = "formatter-maven-plugin";
     private static final String GOAL = "format";
@@ -30,8 +15,8 @@ public class FormatProcess extends ProcessPlugin {
     private static final String ENDLINE = "CRLF";
     private static final String XML_CONFIG = "config/formatter.xml";
 
-    public FormatProcess(boolean skip, boolean create, ProcessContext context) {
-        super("FORMAT", skip, create, context);
+    public FormatJavaProcess(boolean skip, ProcessContext context) {
+        super("FORMAT JAVA", skip, context);
     }
 
     @Override
@@ -45,13 +30,17 @@ public class FormatProcess extends ProcessPlugin {
         } else {
             configFile = processDefaultConfig(XML_CONFIG);
         }
-        executeMojo(formatterPlugin, //
-                goal(GOAL),//
-                configuration(//
-                        element(name("lineEnding"), ENDLINE),//
-                        element(name("encoding"), ENCODING),//
-                        element(name("configFile"), configFile)//
-                ),//
+        executeMojo(formatterPlugin,
+                goal(GOAL),
+                configuration(
+                        element(name("lineEnding"), ENDLINE),
+                        element(name("encoding"), ENCODING),
+                        element(name("configFile"), configFile),
+                        element(name("directories"),
+                                element(name("directory"), "${basedir}/src/main/java"),
+                                element(name("directory"), "${basedir}/src/test/java")
+                        )
+                ),
                 executionEnvironment()
         );
     }

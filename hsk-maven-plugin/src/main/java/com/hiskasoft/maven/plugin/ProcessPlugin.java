@@ -29,113 +29,95 @@ import org.twdata.maven.mojoexecutor.MojoExecutor;
 
 public abstract class ProcessPlugin {
 
-	public static final String PATH_CONFIG = "/META-INF/";
-	private final ProcessContext context;
-	private final boolean skip;
-	private final boolean create;
-	private final String name;
-	private final Log log;
+    public static final String PATH_CONFIG = "/META-INF/";
+    private final ProcessContext context;
+    private final boolean skip;
+    private final String name;
+    private final Log log;
 
-	public ProcessPlugin(String name, boolean skip, boolean create, ProcessContext context) {
-		this.name = name.toUpperCase();
-		this.skip = skip;
-		this.create = create;
-		this.context = context;
-		this.log = context.getLog();
-	}
+    public ProcessPlugin(String name, boolean skip, ProcessContext context) {
+        this.name = name.toUpperCase();
+        this.skip = skip;
+        this.context = context;
+        this.log = context.getLog();
+    }
 
-	public boolean isSkip() {
-		return skip;
-	}
+    public boolean isSkip() {
+        return skip;
+    }
 
-	public boolean isCreate() {
-		return create;
-	}
+    public Log getLog() {
+        return log;
+    }
 
-	public Log getLog() {
-		return log;
-	}
+    public URL getComponentResource(String name) {
+        return getClass().getResource(name);
+    }
 
-	public URL getComponentResource(String name) {
-		return getClass().getResource(name);
-	}
+    public File getMavenProjectFile(String name) {
+        return new File(context.getProject().getBasedir() + "/" + name);
+    }
 
-	public File getMavenProjectFile(String name) {
-		return new File(context.getProject().getBasedir() + "/" + name);
-	}
+    public Plugin getPluginFromComponentDependency(String groupId, String artifactId) {
+        Artifact artifact = context.getArtifactFromComponentDependency(groupId + ":" + artifactId);
+        if (artifact != null) {
+            Plugin plugin = new Plugin();
+            plugin.setGroupId(artifact.getGroupId());
+            plugin.setArtifactId(artifact.getArtifactId());
+            plugin.setVersion(artifact.getVersion());
+            return plugin;
+        }
+        return null;
+    }
 
-	public Plugin getPluginFromComponentDependency(String groupId, String artifactId) {
-		Artifact artifact = context.getArtifactFromComponentDependency(groupId + ":" + artifactId);
-		if (artifact != null) {
-			Plugin plugin = new Plugin();
-			plugin.setGroupId(artifact.getGroupId());
-			plugin.setArtifactId(artifact.getArtifactId());
-			plugin.setVersion(artifact.getVersion());
-			return plugin;
-		}
-		return null;
-	}
+    public MojoExecutor.ExecutionEnvironment executionEnvironment() {
+        return context.getExecutionEnvironment();
+    }
 
-	public MojoExecutor.ExecutionEnvironment executionEnvironment() {
-		return context.getExecutionEnvironment();
-	}
+    public void assertPlugin(Plugin plugin, String groupId, String artifactId, String tag)
+            throws MojoExecutionException {
+        if (plugin == null) {
+            throw new MojoExecutionException("No se ha encontrado el plugin '" + groupId + ":" + artifactId + "' dentro de " + tag);
+        }
+    }
 
-	public void assertPlugin(Plugin plugin, String groupId, String artifactId, String tag)
-									throws MojoExecutionException {
-		if (plugin == null) {
-			throw new MojoExecutionException("No se ha encontrado el plugin '" + groupId + ":" + artifactId + "' dentro de " + tag);
-		}
-	}
+    public void space() {
+        log.info("------------------------------------------------------------------------");
+    }
 
-	public void space() {
-		log.info("------------------------------------------------------------------------");
-	}
+    public void skip() {
+        log.info("SKIP PROCESS: " + name + " FOR: " + context.getProjectArtifactId());
+    }
 
-	public void skip() {
-		log.info("SKIP PROCESS: " + name + " FOR: " + context.getProjectArtifactId());
-	}
+    public void header() {
+        log.info("START PROCESS: " + name + " FOR: " + context.getProjectArtifactId());
+    }
 
-	public void header() {
-		log.info("START PROCESS: " + name + " FOR: " + context.getProjectArtifactId());
-	}
+    public void footer() {
+        log.info("END PROCESS: " + name);
+    }
 
-	public void footer() {
-		log.info("END PROCESS: " + name);
-	}
+    public String processDefaultConfig(String name) throws MojoExecutionException {
+        String path = PATH_CONFIG + name;
+        URL url = getComponentResource(path);
+        if (url == null) {
+            throw new MojoExecutionException("Not found: '" + path + "' file config");
+        }
+        return url.toExternalForm();
+    }
 
-	public String processDefaultConfig(String name) throws MojoExecutionException {
-		String path = PATH_CONFIG + name;
-		URL url = getComponentResource(path);
-		if (url == null) {
-			throw new MojoExecutionException("Not found: '" + path + "' file config");
-		}
-		if (isCreate()) {
-			try {
-				try (InputStream in = url.openStream()) {
-					File file = getMavenProjectFile(name);
-					file.getParentFile().mkdirs();
-					Files.copy(in, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
-				}
-				log.info("Create " + name + " file config");
-			} catch (IOException e) {
-				log.error("Error when create " + name + " file config", e);
-			}
-		}
-		return url.toExternalForm();
-	}
+    public void executeProcess() throws MojoExecutionException {
+        space();
+        if (skip == false) {
+            header();
+            space();
+            execute();
+            footer();
+        } else {
+            skip();
+        }
+        space();
+    }
 
-	public void executeProcess() throws MojoExecutionException {
-		space();
-		if (skip == false) {
-			header();
-			space();
-			execute();
-			footer();
-		} else {
-			skip();
-		}
-		space();
-	}
-
-	public abstract void execute() throws MojoExecutionException;
+    public abstract void execute() throws MojoExecutionException;
 }

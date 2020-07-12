@@ -33,8 +33,8 @@ public class AnalyzerProcess extends ProcessPlugin {
 	private static final String JAVA_VERSION = "1.8";
 	private static final String EXCLUDE_CONFIG = "config/exclude.properties";
 
-	public AnalyzerProcess(boolean skip, boolean create, ProcessContext context) {
-		super("ANALYZER", skip, create, context);
+	public AnalyzerProcess(boolean skip, ProcessContext context) {
+		super("ANALYZER", skip, context);
 	}
 
 	@Override
