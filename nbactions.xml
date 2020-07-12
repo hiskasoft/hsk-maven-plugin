@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+    <action>
+        <actionName>CUSTOM-maven:deploy</actionName>
+        <displayName>maven:deploy</displayName>
+        <goals>
+            <goal>clean</goal>
+            <goal>package</goal>
+            <goal>deploy</goal>
+        </goals>
+    </action>
+    <action>
+        <actionName>CUSTOM-version:set</actionName>
+        <displayName>version:set</displayName>
+        <goals>
+            <goal>versions:set</goal>
+        </goals>
+    </action>
+</actions>
