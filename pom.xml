@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.github.yracnet.maven</groupId>
+    <groupId>com.hiska.maven</groupId>
     <artifactId>hsk-maven</artifactId>
     <version>1.0.0</version>
     <packaging>pom</packaging>
     <name>hsk-maven</name>
     <description>Plugin for control the basic concept of assure quality code</description>
-    <url>https://github.com/yracnet/quality-code-maven-plugin</url>
+    <url>https://github.com/yracnet/hsk-maven-plugin</url>
     <licenses>
         <license>
             <name>The Apache License, Version 2.0</name>
@@ -21,9 +21,9 @@
         </developer>
     </developers>
     <scm>
-        <connection>scm:git:git://github.com/yracnet/quality-code-maven-plugin.git</connection>
-        <developerConnection>scm:git:ssh://github.com:yracnet/quality-code-maven-plugin.git</developerConnection>
-        <url>http://github.com/yracnet/quality-code-maven-plugin/tree/master</url>
+        <connection>scm:git:git://github.com/yracnet/hsk-maven-plugin.git</connection>
+        <developerConnection>scm:git:ssh://github.com:yracnet/hsk-maven-plugin.git</developerConnection>
+        <url>http://github.com/yracnet/hsk-maven-plugin/tree/master</url>
     </scm>
     <modules>
         <module>hsk-maven-plugin</module>

@@ -24,7 +24,7 @@ Include the qualitycode-maven-plugin in your project and compile your project
   <plugins>
   ...
    <plugin>
-    <groupId>com.github.yracnet.maven</groupId>
+    <groupId>com.hiska.maven</groupId>
     <artifactId>qualitycode-maven-plugin</artifactId>
     <version>0.1.1</version>
     <executions>
