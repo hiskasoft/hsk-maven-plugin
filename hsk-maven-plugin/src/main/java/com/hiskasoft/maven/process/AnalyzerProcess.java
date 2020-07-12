@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.hiska.maven.process;
+package com.hiskasoft.maven.process;
 
-import com.hiska.maven.plugin.ProcessContext;
-import com.hiska.maven.plugin.ProcessPlugin;
+import com.hiskasoft.maven.plugin.ProcessContext;
+import com.hiskasoft.maven.plugin.ProcessPlugin;
 import java.io.File;
 import java.io.IOException;
 import org.apache.maven.model.Plugin;

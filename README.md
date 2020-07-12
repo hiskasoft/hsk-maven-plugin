@@ -24,7 +24,7 @@ Include the hsk-maven-plugin in your project and compile your project
   <plugins>
   ...
    <plugin>
-    <groupId>com.hiska.maven</groupId>
+    <groupId>com.hiskasoft.maven</groupId>
     <artifactId>hsk-maven-plugin</artifactId>
     <version>${last-version}</version>
     <executions>

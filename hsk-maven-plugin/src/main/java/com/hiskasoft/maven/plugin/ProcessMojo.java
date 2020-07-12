@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.hiska.maven.plugin;
+package com.hiskasoft.maven.plugin;
 
-import com.hiska.maven.process.AnalyzerProcess;
-import com.hiska.maven.process.FormatProcess;
-import com.hiska.maven.process.LicenseProcess;
+import com.hiskasoft.maven.process.AnalyzerProcess;
+import com.hiskasoft.maven.process.FormatProcess;
+import com.hiskasoft.maven.process.LicenseProcess;
 import java.util.Date;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.AbstractMojo;
