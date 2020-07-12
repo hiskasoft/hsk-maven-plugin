@@ -17,6 +17,7 @@ package com.hiskasoft.maven.plugin;
 
 import com.hiskasoft.maven.process.AnalyzerProcess;
 import com.hiskasoft.maven.process.FormatJavaProcess;
+import com.hiskasoft.maven.process.FormatXmlProcess;
 import com.hiskasoft.maven.process.LicenseProcess;
 import java.util.Date;
 import org.apache.maven.execution.MavenSession;
@@ -32,59 +33,87 @@ import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.twdata.maven.mojoexecutor.MojoExecutor;
 import static org.twdata.maven.mojoexecutor.MojoExecutor.executionEnvironment;
+
 @Mojo(name = "process", defaultPhase = LifecyclePhase.PROCESS_SOURCES)
-public class ProcessMojo extends AbstractMojo {
+@lombok.Getter
+public class ProcessMojo extends AbstractMojo implements Config {
 
-	@Parameter( defaultValue = "${project}", readonly = true )
-	private MavenProject project;
-	@Parameter( defaultValue = "${session}", readonly = true )
-	private MavenSession session;
-	@Component
-	private BuildPluginManager pluginManager;
-	@Parameter( defaultValue = "${mojoExecution}", readonly = true )
-	private MojoExecution execution;
-	@Parameter(defaultValue = "false")
-	private boolean skipFormat;
-	@Parameter(defaultValue = "false")
-	private boolean skipLicence;
-	@Parameter(defaultValue = "false")
-	private boolean skipAnalyzer;
+    @Parameter(defaultValue = "${project}", readonly = true)
+    private MavenProject project;
+    @Parameter(defaultValue = "${session}", readonly = true)
+    private MavenSession session;
+    @Component
+    private BuildPluginManager pluginManager;
+    @Parameter(defaultValue = "${mojoExecution}", readonly = true)
+    private MojoExecution execution;
 
-	@Override
-	public void execute() throws MojoExecutionException {
-		if (isPackagingPOM()) {
-			return;
-		}
-		ProcessContext context = new ProcessContext(project,
-										getPluginDescriptor(),
-										getCurrentExecutionEnvironment(),
-										getLog());
-		getLog().info("PROCESS PLUGIN AT " + new Date() + " IN " + execution.getExecutionId() + " - " + execution.getLifecyclePhase());
-		space();
-		ProcessPlugin processPlugin[] = new ProcessPlugin[]{
-			new FormatJavaProcess(skipFormat, context),
-			new LicenseProcess(skipLicence, context),
-			new AnalyzerProcess(skipAnalyzer, context)};
-		for (ProcessPlugin process : processPlugin) {
-			process.executeProcess();
-		}
-		space();
-	}
+    @Parameter(defaultValue = "false")
+    private boolean skip;
 
-	public void space() {
-		getLog().info("========================================================================");
-	}
+    @Parameter(defaultValue = "UTF-8")
+    private String encoding;
+    @Parameter(defaultValue = "CRLF")
+    private String lineEnding;
+    @Parameter(defaultValue = "1.8", property = "maven.compiler.source")
+    private String javaVersion;
 
-	public PluginDescriptor getPluginDescriptor() {
-		return (PluginDescriptor) getPluginContext().get("pluginDescriptor");
-	}
+    @Parameter(defaultValue = "false")
+    private boolean skipLicence;
+    @Parameter(defaultValue = "false")
+    private boolean skipAnalyzer;
 
-	public MojoExecutor.ExecutionEnvironment getCurrentExecutionEnvironment() {
-		return executionEnvironment(project, session, pluginManager);
-	}
+    @Parameter(defaultValue = "false")
+    private boolean skipCss;
+    @Parameter(defaultValue = "false")
+    private boolean skipHtml;
+    @Parameter(defaultValue = "false")
+    private boolean skipJava;
+    @Parameter(defaultValue = "false")
+    private boolean skipJs;
+    @Parameter(defaultValue = "false")
+    private boolean skipJson;
+    @Parameter(defaultValue = "false")
+    private boolean skipXml;
 
-	public boolean isPackagingPOM() {
-		String type = project.getPackaging();
-		return "pom".equalsIgnoreCase(type);
-	}
+    @Override
+    public void execute() throws MojoExecutionException {
+        if (isPackagingPOM() || skip) {
+            return;
+        }
+
+        Context context = new Context(project,
+                getPluginDescriptor(),
+                getCurrentExecutionEnvironment(),
+                getLog());
+
+        getLog().info("PROCESS PLUGIN AT " + new Date() + " IN " + execution.getExecutionId() + " - " + execution.getLifecyclePhase());
+        space();
+        Process processPlugin[] = new Process[]{
+            new FormatJavaProcess(skipJava, context, this),
+            new FormatXmlProcess(skipXml, context, this),
+            new LicenseProcess(skipLicence, context, this),
+            new AnalyzerProcess(skipAnalyzer, context, this)
+        };
+        for (Process process : processPlugin) {
+            process.executeProcess();
+        }
+        space();
+    }
+
+    public void space() {
+        getLog().info("========================================================================");
+    }
+
+    public PluginDescriptor getPluginDescriptor() {
+        return (PluginDescriptor) getPluginContext().get("pluginDescriptor");
+    }
+
+    public MojoExecutor.ExecutionEnvironment getCurrentExecutionEnvironment() {
+        return executionEnvironment(project, session, pluginManager);
+    }
+
+    public boolean isPackagingPOM() {
+        String type = project.getPackaging();
+        return "pom".equalsIgnoreCase(type);
+    }
 }

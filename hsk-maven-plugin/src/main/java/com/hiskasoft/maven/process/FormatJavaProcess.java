@@ -1,22 +1,22 @@
 package com.hiskasoft.maven.process;
 
-import com.hiskasoft.maven.plugin.ProcessContext;
-import com.hiskasoft.maven.plugin.ProcessPlugin;
+import com.hiskasoft.maven.plugin.Context;
+import com.hiskasoft.maven.plugin.Process;
+import com.hiskasoft.maven.plugin.Config;
 import java.io.File;
 import org.apache.maven.model.Plugin;
 import org.apache.maven.plugin.MojoExecutionException;
 import static org.twdata.maven.mojoexecutor.MojoExecutor.*;
 
-public class FormatJavaProcess extends ProcessPlugin {
+public class FormatJavaProcess extends Process {
     private static final String GROUP_ID = "net.revelc.code.formatter";
     private static final String ARTIFACT_ID = "formatter-maven-plugin";
     private static final String GOAL = "format";
-    private static final String ENCODING = "UTF-8";
-    private static final String ENDLINE = "CRLF";
     private static final String XML_CONFIG = "config/formatter.xml";
+    
 
-    public FormatJavaProcess(boolean skip, ProcessContext context) {
-        super("FORMAT JAVA", skip, context);
+    public FormatJavaProcess(boolean skip, Context context, Config config) {
+        super("FORMAT JAVA", skip, context, config);
     }
 
     @Override
@@ -33,8 +33,8 @@ public class FormatJavaProcess extends ProcessPlugin {
         executeMojo(formatterPlugin,
                 goal(GOAL),
                 configuration(
-                        element(name("lineEnding"), ENDLINE),
-                        element(name("encoding"), ENCODING),
+                        element(name("lineEnding"),  config.getLineEnding()),
+                        element(name("encoding"), config.getEncoding()),
                         element(name("configFile"), configFile),
                         element(name("directories"),
                                 element(name("directory"), "${basedir}/src/main/java"),

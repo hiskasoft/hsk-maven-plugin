@@ -15,22 +15,23 @@
  */
 package com.hiskasoft.maven.process;
 
-import com.hiskasoft.maven.plugin.ProcessContext;
-import com.hiskasoft.maven.plugin.ProcessPlugin;
+import com.hiskasoft.maven.plugin.Config;
+import com.hiskasoft.maven.plugin.Context;
+import com.hiskasoft.maven.plugin.Process;
 import java.io.File;
 import org.apache.maven.model.Plugin;
 import org.apache.maven.plugin.MojoExecutionException;
 import static org.twdata.maven.mojoexecutor.MojoExecutor.*;
 
-public class LicenseProcess extends ProcessPlugin {
+public class LicenseProcess extends Process {
 
     private static final String GROUP_ID = "com.mycila";
     private static final String ARTIFACT_ID = "license-maven-plugin";
     private static final String GOAL = "format";
     private static final String LICENCE_TEXT = "config/licence.txt";
 
-    public LicenseProcess(boolean skip, ProcessContext context) {
-        super("LICENSE", skip, context);
+    public LicenseProcess(boolean skip, Context context, Config config) {
+        super("LICENSE", skip, context, config);
     }
 
     @Override
