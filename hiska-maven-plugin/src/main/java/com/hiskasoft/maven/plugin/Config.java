@@ -15,6 +15,8 @@
  */
 package com.hiskasoft.maven.plugin;
 
+import java.io.File;
+
 public interface Config {
 
     public String getEncoding();
@@ -22,6 +24,8 @@ public interface Config {
     public String getLineEnding();
 
     public String getJavaVersion();
+
+    public boolean isSkipPom();
 
     public boolean isSkipCss();
 
@@ -34,4 +38,14 @@ public interface Config {
     public boolean isSkipJson();
 
     public boolean isSkipXml();
+
+    public File getBasedir();
+
+    public File getWebappDir();
+
+    public File getJavaDir();
+
+    public File getResourcesDir();
+
+    public File getTempDir();
 }

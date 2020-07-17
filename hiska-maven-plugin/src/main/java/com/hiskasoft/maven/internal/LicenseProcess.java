@@ -54,6 +54,7 @@ public class LicenseProcess extends AbstractProcess {
                         element(name("strictCheck"), "true"),
                         element(name("includes"),
                                 element(name("include"), "src/main/java/**/*.java"),
+                                element(name("include"), "src/test/java/**/*.java"),
                                 element(name("include"), "src/main/webapp/*.html"),
                                 element(name("include"), "src/main/webapp/view/*.html"),
                                 element(name("include"), "src/main/webapp/ctrl/**/*.js")),

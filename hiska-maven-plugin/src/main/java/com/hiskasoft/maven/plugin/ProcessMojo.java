@@ -16,10 +16,12 @@
 package com.hiskasoft.maven.plugin;
 
 import com.hiskasoft.maven.internal.AnalyzerProcess;
+import com.hiskasoft.maven.internal.FormatPomProcess;
 import com.hiskasoft.maven.internal.FormatProcess;
 import com.hiskasoft.maven.internal.FormatXmlProcess;
 import com.hiskasoft.maven.internal.LicenseProcess;
 import com.hiskasoft.maven.process.Logger;
+import java.io.File;
 import java.util.Date;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.AbstractMojo;
@@ -67,6 +69,8 @@ public class ProcessMojo extends AbstractMojo implements Config {
     @Parameter(defaultValue = "false")
     private boolean skipFormat;
     @Parameter(defaultValue = "false")
+    private boolean skipPom;
+    @Parameter(defaultValue = "false")
     private boolean skipCss;
     @Parameter(defaultValue = "false")
     private boolean skipHtml;
@@ -79,6 +83,16 @@ public class ProcessMojo extends AbstractMojo implements Config {
     @Parameter(defaultValue = "false")
     private boolean skipXml;
 
+    @Parameter(defaultValue = "${basedir}", readonly = true)
+    private File basedir;
+    @Parameter(defaultValue = "${basedir}/src/main/webapp/", readonly = true)
+    private File webappDir;
+    @Parameter(defaultValue = "${basedir}/src/main/java/", readonly = true)
+    private File javaDir;
+    @Parameter(defaultValue = "${basedir}/src/main/resources/", readonly = true)
+    private File resourcesDir;
+    @Parameter(defaultValue = "${basedir}/target/temp/", readonly = true)
+    private File tempDir;
 
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
@@ -95,6 +109,7 @@ public class ProcessMojo extends AbstractMojo implements Config {
 
         AbstractProcess processPlugin[] = new AbstractProcess[]{
             new FormatProcess(skipFormat, this, context, logger),
+            new FormatPomProcess(skipFormat, this, context, logger),
             new FormatXmlProcess(skipFormat, this, context, logger),
             new LicenseProcess(skipLicence, this, context, logger),
             new AnalyzerProcess(skipAnalyzer, this, context, logger)
