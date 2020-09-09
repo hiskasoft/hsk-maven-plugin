@@ -22,6 +22,7 @@ import org.apache.maven.artifact.Artifact;
 import org.apache.maven.model.Plugin;
 import org.twdata.maven.mojoexecutor.MojoExecutor;
 import com.hiskasoft.maven.process.Process;
+import org.apache.maven.project.MavenProject;
 
 @lombok.Getter
 public abstract class AbstractProcess implements Process {
@@ -46,7 +47,16 @@ public abstract class AbstractProcess implements Process {
     }
 
     public File getMavenProjectFile(String name) {
-        return new File(context.getProject().getBasedir() + "/" + name);
+        return getMavenProjectFile(context.getProject() , name);
+    }
+    
+    public File getMavenProjectFile( MavenProject project, String name){
+        File file = new File(project.getBasedir() , name);
+        project = project.getParent();
+        if(!file.exists() && project != null){
+            file = getMavenProjectFile(project, name);
+        }
+        return file;
     }
 
     public Plugin getPluginFromComponentDependency(String groupId, String artifactId) {
