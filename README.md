@@ -45,4 +45,3 @@ Include the hiska-maven-plugin in your project and compile your project
 ```
 ### Contact
 
-If you have any question, send a email to wyujra@hiskasoft.com.
